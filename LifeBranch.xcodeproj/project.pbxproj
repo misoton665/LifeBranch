@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		2C0905001A378E49007E8DBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0904FF1A378E49007E8DBF /* AppDelegate.swift */; };
-		2C0905021A378E49007E8DBF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2C0905011A378E49007E8DBF /* GameScene.sks */; };
-		2C0905041A378E49007E8DBF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0905031A378E49007E8DBF /* GameScene.swift */; };
+		2C0905021A378E49007E8DBF /* TitleScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2C0905011A378E49007E8DBF /* TitleScene.sks */; };
+		2C0905041A378E49007E8DBF /* TitleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0905031A378E49007E8DBF /* TitleScene.swift */; };
 		2C0905061A378E49007E8DBF /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0905051A378E49007E8DBF /* GameViewController.swift */; };
 		2C0905091A378E49007E8DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C0905071A378E49007E8DBF /* Main.storyboard */; };
 		2C09050B1A378E49007E8DBF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C09050A1A378E49007E8DBF /* Images.xcassets */; };
 		2C09050E1A378E49007E8DBF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C09050C1A378E49007E8DBF /* LaunchScreen.xib */; };
 		2C09051A1A378E49007E8DBF /* LifeBranchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0905191A378E49007E8DBF /* LifeBranchTests.swift */; };
+		2C408EF51A43E704000CB014 /* JadgeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C408EF41A43E704000CB014 /* JadgeScene.swift */; };
+		2CFFC4071A3DF5CF00FF92F7 /* PositionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFFC4061A3DF5CF00FF92F7 /* PositionUtil.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,8 +33,8 @@
 		2C0904FA1A378E49007E8DBF /* LifeBranch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeBranch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0904FE1A378E49007E8DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0904FF1A378E49007E8DBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2C0905011A378E49007E8DBF /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		2C0905031A378E49007E8DBF /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		2C0905011A378E49007E8DBF /* TitleScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TitleScene.sks; sourceTree = "<group>"; };
+		2C0905031A378E49007E8DBF /* TitleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleScene.swift; sourceTree = "<group>"; };
 		2C0905051A378E49007E8DBF /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		2C0905081A378E49007E8DBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2C09050A1A378E49007E8DBF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -40,6 +42,8 @@
 		2C0905131A378E49007E8DBF /* LifeBranchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LifeBranchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0905181A378E49007E8DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0905191A378E49007E8DBF /* LifeBranchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeBranchTests.swift; sourceTree = "<group>"; };
+		2C408EF41A43E704000CB014 /* JadgeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JadgeScene.swift; sourceTree = "<group>"; };
+		2CFFC4061A3DF5CF00FF92F7 /* PositionUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionUtil.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,9 +86,11 @@
 			isa = PBXGroup;
 			children = (
 				2C0904FF1A378E49007E8DBF /* AppDelegate.swift */,
-				2C0905011A378E49007E8DBF /* GameScene.sks */,
-				2C0905031A378E49007E8DBF /* GameScene.swift */,
+				2C0905011A378E49007E8DBF /* TitleScene.sks */,
+				2C0905031A378E49007E8DBF /* TitleScene.swift */,
 				2C0905051A378E49007E8DBF /* GameViewController.swift */,
+				2CFFC4061A3DF5CF00FF92F7 /* PositionUtil.swift */,
+				2C408EF41A43E704000CB014 /* JadgeScene.swift */,
 				2C0905071A378E49007E8DBF /* Main.storyboard */,
 				2C09050A1A378E49007E8DBF /* Images.xcassets */,
 				2C09050C1A378E49007E8DBF /* LaunchScreen.xib */,
@@ -200,7 +206,7 @@
 			files = (
 				2C09050E1A378E49007E8DBF /* LaunchScreen.xib in Resources */,
 				2C09050B1A378E49007E8DBF /* Images.xcassets in Resources */,
-				2C0905021A378E49007E8DBF /* GameScene.sks in Resources */,
+				2C0905021A378E49007E8DBF /* TitleScene.sks in Resources */,
 				2C0905091A378E49007E8DBF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,7 +225,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C0905041A378E49007E8DBF /* GameScene.swift in Sources */,
+				2CFFC4071A3DF5CF00FF92F7 /* PositionUtil.swift in Sources */,
+				2C0905041A378E49007E8DBF /* TitleScene.swift in Sources */,
+				2C408EF51A43E704000CB014 /* JadgeScene.swift in Sources */,
 				2C0905061A378E49007E8DBF /* GameViewController.swift in Sources */,
 				2C0905001A378E49007E8DBF /* AppDelegate.swift in Sources */,
 			);
@@ -415,6 +423,7 @@
 				2C09051F1A378E49007E8DBF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2C0905201A378E49007E8DBF /* Build configuration list for PBXNativeTarget "LifeBranchTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +432,7 @@
 				2C0905221A378E49007E8DBF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
