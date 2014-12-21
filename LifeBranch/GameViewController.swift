@@ -33,11 +33,11 @@ class GameViewController: UIViewController {
         PositionUtil.uiMidX = self.view.frame.midX
         PositionUtil.uiMidY = self.view.frame.midY
 
-        if let scene = TitleScene.unarchiveFromFile("GameScene") as? TitleScene {
+        if let scene = TitleScene.unarchiveFromFile("TitleScene") as? TitleScene {
             // Configure the view.
             let skView = self.view as SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
+            skView.showsFPS = false
+            skView.showsNodeCount = false
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
