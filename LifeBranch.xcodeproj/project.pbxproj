@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C05BAC41A45520300D5CD28 /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05BAC31A45520300D5CD28 /* Problem.swift */; };
 		2C0905001A378E49007E8DBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0904FF1A378E49007E8DBF /* AppDelegate.swift */; };
 		2C0905021A378E49007E8DBF /* TitleScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2C0905011A378E49007E8DBF /* TitleScene.sks */; };
 		2C0905041A378E49007E8DBF /* TitleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0905031A378E49007E8DBF /* TitleScene.swift */; };
@@ -32,7 +31,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2C05BAC31A45520300D5CD28 /* Problem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Problem.swift; path = ../Problem.swift; sourceTree = "<group>"; };
 		2C0904FA1A378E49007E8DBF /* LifeBranch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeBranch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0904FE1A378E49007E8DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0904FF1A378E49007E8DBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 				2C0904FF1A378E49007E8DBF /* AppDelegate.swift */,
 				2CC3C5711A46C590002730B6 /* AppColors.swift */,
 				2C1325271A48553700A75D86 /* Problem.swift */,
-				2C05BAC31A45520300D5CD28 /* Problem.swift */,
 				2C0905011A378E49007E8DBF /* TitleScene.sks */,
 				2C0905031A378E49007E8DBF /* TitleScene.swift */,
 				2C0905051A378E49007E8DBF /* GameViewController.swift */,
@@ -232,7 +229,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C1325281A48553700A75D86 /* Problem.swift in Sources */,
-				2C05BAC41A45520300D5CD28 /* Problem.swift in Sources */,
 				2C0905041A378E49007E8DBF /* TitleScene.swift in Sources */,
 				2C408EF51A43E704000CB014 /* JudgeScene.swift in Sources */,
 				2CC3C5721A46C590002730B6 /* AppColors.swift in Sources */,

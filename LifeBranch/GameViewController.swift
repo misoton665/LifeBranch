@@ -29,9 +29,6 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        PositionUtil.uiMidX = self.view.frame.midX
-        PositionUtil.uiMidY = self.view.frame.midY
 
         if let scene = TitleScene.unarchiveFromFile("TitleScene") as? TitleScene {
             // Configure the view.
