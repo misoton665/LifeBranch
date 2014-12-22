@@ -125,26 +125,19 @@ class TitleScene: SKScene, UITextFieldDelegate {
         problem.choicesA = "Sample Choices A"
         problem.choicesB = "Sample Choices B"
         
-        //遷移先のシーンを作る
-        let jadgeScene = JadgeScene(size: self.scene!.size)
+        let judgeScene = JudgeScene(size: self.scene!.size)
         
-        //フェードアウトするエフェクトを作る
         let transitionEffect = SKTransition.fadeWithDuration(0.5)
         
-        //遷移先のシーンと遷移前のシーンのサイズを合わせる
-        jadgeScene.size = self.frame.size
+        judgeScene.size = self.frame.size
         
-        jadgeScene.scaleMode = .AspectFill
+        judgeScene.scaleMode = .AspectFill
         
-        jadgeScene.problem = problem
+        judgeScene.problem = problem
         
-        //シーンを遷移させる
-        self.view?.presentScene(jadgeScene)
+        self.view?.presentScene(judgeScene)
     }
     
-    /*
-    UITextFieldが編集された直後に呼ばれる.
-    */
     func textFieldDidBeginEditing(textField: UITextField){
         println("textFieldDidBeginEditing:" + textField.text)
         switch(textField.tag){
@@ -161,9 +154,6 @@ class TitleScene: SKScene, UITextFieldDelegate {
         }
     }
     
-    /*
-    UITextFieldが編集終了する直前に呼ばれる.
-    */
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         println("textFieldShouldEndEditing:" + textField.text)
         switch(textField.tag){
@@ -181,9 +171,6 @@ class TitleScene: SKScene, UITextFieldDelegate {
         return true
     }
     
-    /*
-    改行ボタンが押された際に呼ばれる.
-    */
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         

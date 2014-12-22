@@ -16,7 +16,7 @@
 		2C09050B1A378E49007E8DBF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C09050A1A378E49007E8DBF /* Images.xcassets */; };
 		2C09050E1A378E49007E8DBF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C09050C1A378E49007E8DBF /* LaunchScreen.xib */; };
 		2C09051A1A378E49007E8DBF /* LifeBranchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0905191A378E49007E8DBF /* LifeBranchTests.swift */; };
-		2C408EF51A43E704000CB014 /* JadgeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C408EF41A43E704000CB014 /* JadgeScene.swift */; };
+		2C408EF51A43E704000CB014 /* JudgeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C408EF41A43E704000CB014 /* JudgeScene.swift */; };
 		2CBA99001A45D9A2003BDE69 /* Bumper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBA98FF1A45D9A2003BDE69 /* Bumper.swift */; };
 		2CC3C5721A46C590002730B6 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC3C5711A46C590002730B6 /* AppColors.swift */; };
 		2CFFC4071A3DF5CF00FF92F7 /* PositionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFFC4061A3DF5CF00FF92F7 /* PositionUtil.swift */; };
@@ -46,7 +46,7 @@
 		2C0905131A378E49007E8DBF /* LifeBranchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LifeBranchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0905181A378E49007E8DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0905191A378E49007E8DBF /* LifeBranchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeBranchTests.swift; sourceTree = "<group>"; };
-		2C408EF41A43E704000CB014 /* JadgeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JadgeScene.swift; sourceTree = "<group>"; };
+		2C408EF41A43E704000CB014 /* JudgeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JudgeScene.swift; sourceTree = "<group>"; };
 		2CBA98FF1A45D9A2003BDE69 /* Bumper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bumper.swift; sourceTree = "<group>"; };
 		2CC3C5711A46C590002730B6 /* AppColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		2CFFC4061A3DF5CF00FF92F7 /* PositionUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionUtil.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 				2C0905031A378E49007E8DBF /* TitleScene.swift */,
 				2C0905051A378E49007E8DBF /* GameViewController.swift */,
 				2CFFC4061A3DF5CF00FF92F7 /* PositionUtil.swift */,
-				2C408EF41A43E704000CB014 /* JadgeScene.swift */,
+				2C408EF41A43E704000CB014 /* JudgeScene.swift */,
 				2C0905071A378E49007E8DBF /* Main.storyboard */,
 				2C09050A1A378E49007E8DBF /* Images.xcassets */,
 				2C09050C1A378E49007E8DBF /* LaunchScreen.xib */,
@@ -237,7 +237,7 @@
 				2CFFC4071A3DF5CF00FF92F7 /* PositionUtil.swift in Sources */,
 				2C05BAC41A45520300D5CD28 /* Problem.swift in Sources */,
 				2C0905041A378E49007E8DBF /* TitleScene.swift in Sources */,
-				2C408EF51A43E704000CB014 /* JadgeScene.swift in Sources */,
+				2C408EF51A43E704000CB014 /* JudgeScene.swift in Sources */,
 				2CBA99001A45D9A2003BDE69 /* Bumper.swift in Sources */,
 				2CC3C5721A46C590002730B6 /* AppColors.swift in Sources */,
 				2C0905061A378E49007E8DBF /* GameViewController.swift in Sources */,

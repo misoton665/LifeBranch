@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import Social
 
 extension SKScene{
     
@@ -20,8 +21,8 @@ extension SKScene{
     
 }
 
-class JadgeCircleNode: SKShapeNode{
-    let fallBorder: Int = 20
+class JudgeCircleNode: SKShapeNode{
+    let fallBorder: Int = 6
     var fallCount: Int = 0
     
     func incFallCount(value: Int){
@@ -66,15 +67,23 @@ class RemovedBool{
     }
 }
 
-class JadgeScene: SKScene{
+class JudgeScene: SKScene{
     var _problem: Problem = Problem()
     
     private let wallThickness: CGFloat = 10.0
     
     private var leftRotateAction :SKAction!
     private var rightRotateAction :SKAction!
+    
+    private var circleLeftCntLabel: SKLabelNode!
+    private var throwableArea: SKShapeNode!
+    private var choicesArea: SKShapeNode!
+    
     private var circleBumperA: SKShapeNode!
     private var circleBumperB: SKShapeNode!
+    private var circleBumperC: SKShapeNode!
+    private var circleBumperD: SKShapeNode!
+    
     private var triangleBumperA : SKShapeNode!
     private var triangleBumperB : SKShapeNode!
     private var triangleBumperC : SKShapeNode!
@@ -86,12 +95,18 @@ class JadgeScene: SKScene{
     private var leftLabel: SKLabelNode!
     private var rightLabel: SKLabelNode!
     
+    private var choicesALabel: SKLabelNode!
+    private var choicesBLabel: SKLabelNode!
+    
     private var leftCnt: Int = 0
     private var rightCnt: Int = 0
+    private var circleLeftCnt: Int = 11
+    private var circleFalledCnt: Int = 0
+    private let circleMax: Int = 11
     
     private var rotatefl: Bool = true
     
-    private var circles: [(JadgeCircleNode, RemovedBool)] = []
+    private var circles: [(JudgeCircleNode, RemovedBool)] = []
     
     var problem: Problem{
         get{
@@ -110,6 +125,22 @@ class JadgeScene: SKScene{
         leftRotateAction = SKAction.rotateByAngle( DegreeToRadian(36.0) , duration: 0.1)
         rightRotateAction = SKAction.rotateByAngle( DegreeToRadian(-36.0) , duration: 0.1)
         
+        circleLeftCntLabel = SKLabelNode(text: "\(circleLeftCnt)")
+        circleLeftCntLabel.fontSize = 50
+        circleLeftCntLabel.fontColor = AppColors.textColor
+        circleLeftCntLabel.position = CGPointMake(self.frame.midX, self.frame.maxY - 75)
+        self.addChild(circleLeftCntLabel)
+        
+        throwableArea = SKShapeNode(rectOfSize: CGSizeMake(self.frame.maxX, 100))
+        throwableArea.fillColor = AppColors.maskBlackColor
+        throwableArea.position = CGPointMake(self.frame.midX, self.frame.maxY - 48.0)
+        self.addChild(throwableArea)
+        
+        choicesArea = SKShapeNode(rectOfSize: CGSizeMake(self.frame.maxX, 100))
+        choicesArea.fillColor = AppColors.maskMainColor
+        choicesArea.position = CGPointMake(self.frame.midX, self.frame.minY + 50.0)
+        self.addChild(choicesArea)
+        
         circleBumperA = SKShapeNode(circleOfRadius: 24.0)
         circleBumperA.fillColor = AppColors.bumperColor
         circleBumperA.position = CGPointMake(self.frame.midX - 120, self.frame.midY + 200)
@@ -125,6 +156,22 @@ class JadgeScene: SKScene{
         circleBumperB.physicsBody?.dynamic = false
         circleBumperB.physicsBody?.restitution = -0.2
         self.addChild(circleBumperB)
+        
+        circleBumperC = SKShapeNode(circleOfRadius: 24.0)
+        circleBumperC.fillColor = AppColors.bumperColor
+        circleBumperC.position = CGPointMake(self.frame.midX - 120, self.frame.midY + 200)
+        circleBumperC.physicsBody = SKPhysicsBody(circleOfRadius: 24.0)
+        circleBumperC.physicsBody?.dynamic = false
+        circleBumperC.physicsBody?.restitution = -0.2
+        self.addChild(circleBumperC)
+        
+        circleBumperD = SKShapeNode(circleOfRadius: 24.0)
+        circleBumperD.fillColor = AppColors.bumperColor
+        circleBumperD.position = CGPointMake(self.frame.midX + 120, self.frame.midY + 200)
+        circleBumperD.physicsBody = SKPhysicsBody(circleOfRadius: 24.0)
+        circleBumperD.physicsBody?.dynamic = false
+        circleBumperD.physicsBody?.restitution = -0.2
+        self.addChild(circleBumperD)
         
         var halfLength: CGFloat = 30.0
         
@@ -251,17 +298,28 @@ class JadgeScene: SKScene{
         leftLabel = SKLabelNode(text: "\(leftCnt)")
         leftLabel.fontSize = 50
         leftLabel.fontColor = AppColors.textColor
-        leftLabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2, self.frame.minY + 40)
+        leftLabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2, self.frame.minY + 37)
         self.addChild(leftLabel)
         
         rightLabel = SKLabelNode(text:"\(rightCnt)")
         rightLabel.fontSize = 50
         rightLabel.fontColor = AppColors.textColor
-        rightLabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2 + (self.frame.midX - (self.frame.midX - 217)), self.frame.minY + 40)
+        rightLabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2 + (self.frame.midX - (self.frame.midX - 217)), self.frame.minY + 37)
         self.addChild(rightLabel)
         
-        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        choicesALabel = SKLabelNode(text:"\(problem.choicesA)")
+        choicesALabel.fontSize = 20
+        choicesALabel.fontColor = AppColors.textColor
+        choicesALabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2, self.frame.minY + 105)
+        self.addChild(choicesALabel)
         
+        choicesBLabel = SKLabelNode(text:"\(problem.choicesB)")
+        choicesBLabel.fontSize = 20
+        choicesBLabel.fontColor = AppColors.textColor
+        choicesBLabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2 + (self.frame.midX - (self.frame.midX - 217)), self.frame.minY + 105)
+        self.addChild(choicesBLabel)
+        
+        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -269,27 +327,47 @@ class JadgeScene: SKScene{
         for touch in touches{
             let location = touch.locationInNode(self)
             
-            let circle = JadgeCircleNode(circleOfRadius: 10.0)
+            if location.y < self.frame.maxY - 100 || circleLeftCnt <= 0 {
+                showChoicesLabels()
+                continue
+            }
+            
+            let circle = JudgeCircleNode(circleOfRadius: 10.0)
             circle.fillColor = AppColors.ballColor
             circle.position = location
             circle.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
             circle.physicsBody?.restitution = 0.6
-        
             self.addChild(circle as SKShapeNode)
-            
             circles.append(circle, RemovedBool(bool: true))
+            
+            circleLeftCnt--
+            circleLeftCntLabel.text = "\(circleLeftCnt)"
         }
     }
     
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        hideChoicesLabels()
+    }
+    
+    func showChoicesLabels(){
+        choicesALabel.hidden = false
+        choicesBLabel.hidden = false
+    }
+    
+    func hideChoicesLabels(){
+        choicesALabel.hidden = true
+        choicesBLabel.hidden = true
+    }
+    
     func update(){
-        triangleBumperA.runAction(rightRotateAction)
-        triangleBumperB.runAction(leftRotateAction)
+        triangleBumperA.runAction(leftRotateAction)
+        triangleBumperB.runAction(rightRotateAction)
         triangleBumperC.runAction(leftRotateAction)
         triangleBumperD.runAction(rightRotateAction)
         
         var cnt = 0
         
-        for circle: (JadgeCircleNode, RemovedBool) in circles{
+        for circle: (JudgeCircleNode, RemovedBool) in circles{
             if(!circle.1.bool){
                 continue
             }
@@ -303,14 +381,46 @@ class JadgeScene: SKScene{
                 if(circle.0.frame.midX < self.frame.midX){
                     leftCnt++
                     leftLabel.text = "\(leftCnt)"
+                    if(leftCnt >= (circleMax - 1) / 2 + 1){
+                        leftLabel.fontColor = AppColors.emphasisColor
+                    }
                 } else {
                     rightCnt++
                     rightLabel.text = "\(rightCnt)"
+                    if(rightCnt >= (circleMax - 1) / 2 + 1){
+                        rightLabel.fontColor = AppColors.emphasisColor
+                    }
                 }
                 self.removeChildrenInArray([circle.0])
                 circle.1.bool = false
+                circleFalledCnt++
+                
+                if circleFalledCnt >= circleMax {
+                    var choicesText: NSString = ""
+                    if leftCnt > rightCnt {
+                        choicesText = problem.choicesA
+                    } else {
+                        choicesText = problem.choicesB
+                    }
+                    launchFinishAlert(choicesText)
+                }
             }
             cnt++
         }
+    }
+    
+    func launchFinishAlert(choicesText: NSString){
+        let myAlert = UIAlertController(title: "決定しました！", message: "\(choicesText)", preferredStyle: .Alert)
+        let myOkAction = UIAlertAction(title: "OK", style: .Default) { action in
+            self.launchTweetDialog("\(self.problem.problem) という悩みを \(choicesText) で解決！ #lifebranch")
+        }
+        myAlert.addAction(myOkAction)
+        self.view?.window?.rootViewController?.presentViewController(myAlert, animated: true, completion: nil)
+    }
+    
+    func launchTweetDialog(tweetText: NSString){
+        let myComposeView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+        myComposeView.setInitialText(tweetText)
+        self.view?.window?.rootViewController?.presentViewController(myComposeView, animated: true, completion: nil)
     }
 }

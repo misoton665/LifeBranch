@@ -22,5 +22,9 @@ struct AppColors{
     
     internal static let ballColor = UIColor(red: 1.0, green: 0.298, blue: 0.114, alpha: AppColors.alpha)
     
-    internal static let maskColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.2)
+    internal static let emphasisColor = UIColor(red: 1.0, green: 0.271, blue: 0.0, alpha: AppColors.alpha)
+    
+    internal static let maskBlackColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.2)
+    
+    internal static let maskMainColor = UIColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 0.2)
 }
