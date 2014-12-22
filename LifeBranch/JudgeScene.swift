@@ -128,7 +128,7 @@ class JudgeScene: SKScene{
         circleLeftCntLabel = SKLabelNode(text: "\(circleLeftCnt)")
         circleLeftCntLabel.fontSize = 50
         circleLeftCntLabel.fontColor = AppColors.textColor
-        circleLeftCntLabel.position = CGPointMake(self.frame.midX, self.frame.maxY - 75)
+        circleLeftCntLabel.position = CGPointMake(self.frame.midX, self.frame.maxY - 70)
         self.addChild(circleLeftCntLabel)
         
         throwableArea = SKShapeNode(rectOfSize: CGSizeMake(self.frame.maxX, 100))
@@ -157,18 +157,18 @@ class JudgeScene: SKScene{
         circleBumperB.physicsBody?.restitution = -0.2
         self.addChild(circleBumperB)
         
-        circleBumperC = SKShapeNode(circleOfRadius: 24.0)
+        circleBumperC = SKShapeNode(circleOfRadius: 20.0)
         circleBumperC.fillColor = AppColors.bumperColor
-        circleBumperC.position = CGPointMake(self.frame.midX - 120, self.frame.midY + 200)
-        circleBumperC.physicsBody = SKPhysicsBody(circleOfRadius: 24.0)
+        circleBumperC.position = CGPointMake(self.frame.midX - 60, self.frame.midY + 100)
+        circleBumperC.physicsBody = SKPhysicsBody(circleOfRadius: 20.0)
         circleBumperC.physicsBody?.dynamic = false
         circleBumperC.physicsBody?.restitution = -0.2
         self.addChild(circleBumperC)
         
-        circleBumperD = SKShapeNode(circleOfRadius: 24.0)
+        circleBumperD = SKShapeNode(circleOfRadius: 20.0)
         circleBumperD.fillColor = AppColors.bumperColor
-        circleBumperD.position = CGPointMake(self.frame.midX + 120, self.frame.midY + 200)
-        circleBumperD.physicsBody = SKPhysicsBody(circleOfRadius: 24.0)
+        circleBumperD.position = CGPointMake(self.frame.midX + 60, self.frame.midY + 100)
+        circleBumperD.physicsBody = SKPhysicsBody(circleOfRadius: 20.0)
         circleBumperD.physicsBody?.dynamic = false
         circleBumperD.physicsBody?.restitution = -0.2
         self.addChild(circleBumperD)
@@ -310,13 +310,13 @@ class JudgeScene: SKScene{
         choicesALabel = SKLabelNode(text:"\(problem.choicesA)")
         choicesALabel.fontSize = 20
         choicesALabel.fontColor = AppColors.textColor
-        choicesALabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2, self.frame.minY + 105)
+        choicesALabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2, self.frame.minY + 100)
         self.addChild(choicesALabel)
         
         choicesBLabel = SKLabelNode(text:"\(problem.choicesB)")
         choicesBLabel.fontSize = 20
         choicesBLabel.fontColor = AppColors.textColor
-        choicesBLabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2 + (self.frame.midX - (self.frame.midX - 217)), self.frame.minY + 105)
+        choicesBLabel.position = CGPointMake((self.frame.midX + self.frame.midX - 217) / 2 + (self.frame.midX - (self.frame.midX - 217)), self.frame.minY + 100)
         self.addChild(choicesBLabel)
         
         self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
@@ -421,6 +421,17 @@ class JudgeScene: SKScene{
     func launchTweetDialog(tweetText: NSString){
         let myComposeView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
         myComposeView.setInitialText(tweetText)
+        myComposeView.completionHandler = { hanlder in
+            let titleScene = TitleScene(size: self.scene!.size)
+            
+            let transitionEffect = SKTransition.fadeWithDuration(0.5)
+            
+            titleScene.size = self.frame.size
+            
+            titleScene.scaleMode = .AspectFill
+            
+            self.view?.presentScene(titleScene)
+        }
         self.view?.window?.rootViewController?.presentViewController(myComposeView, animated: true, completion: nil)
     }
 }

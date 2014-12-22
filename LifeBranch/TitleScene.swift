@@ -25,6 +25,7 @@ class TitleScene: SKScene, UITextFieldDelegate {
     let choicesLabel: UILabel = UILabel()
     let choicesATextField: UITextField = UITextField()
     let choicesBTextField: UITextField = UITextField()
+    let solutionLabel: UILabel = UILabel()
     let myButton = UIButton()
     
     var uiSubViews : [UIView] = []
@@ -36,18 +37,12 @@ class TitleScene: SKScene, UITextFieldDelegate {
         
         titleLabel.frame = CGRectMake(0, 0, 300, 60)
         titleLabel.text = "LifeBranch!!"
-        titleLabel.layer.position = CGPoint(x: self.view!.bounds.width/2.0, y: 100)
+        titleLabel.layer.position = CGPoint(x: self.view!.bounds.width/2.0, y: 90)
         titleLabel.textColor = AppColors.textColor
         titleLabel.textAlignment = NSTextAlignment.Center
         let font: UIFont = UIFont.systemFontOfSize(42.0)
         titleLabel.font = font
         self.view?.addSubview(titleLabel)
-        
-        problemLabel.frame = CGRectMake(0, 0, 300, 40)
-        problemLabel.text = "あなたの悩みは？"
-        problemLabel.textColor = AppColors.textColor
-        problemLabel.layer.position = CGPoint(x: self.view!.bounds.width/2.0, y: 200)
-        self.view?.addSubview(problemLabel)
         
         problemTextField.frame = CGRectMake(0, 0, 300, 60)
         problemTextField.placeholder = "今日の夕飯どうしよう？"
@@ -57,15 +52,15 @@ class TitleScene: SKScene, UITextFieldDelegate {
         problemTextField.borderStyle = UITextBorderStyle.RoundedRect
         problemTextField.layer.borderColor = AppColors.mainColor.CGColor
         problemTextField.layer.borderWidth = 1.0
-        problemTextField.layer.position = CGPoint(x:self.view!.bounds.width/2.0,y:240)
+        problemTextField.layer.position = CGPoint(x:self.view!.bounds.width/2.0,y:200)
         problemTextField.tag = Tag.ProglemTag.rawValue
         self.view?.addSubview(problemTextField)
         
-        choicesLabel.frame = CGRectMake(0, 0, 300, 40)
-        choicesLabel.text = "どうしよう？"
-        choicesLabel.layer.position = CGPoint(x: self.view!.bounds.width/2.0, y: 320)
-        choicesLabel.textColor = AppColors.textColor
-        self.view?.addSubview(choicesLabel)
+        problemLabel.frame = CGRectMake(0, 0, 300, 40)
+        problemLabel.text = "という悩みを"
+        problemLabel.textColor = AppColors.textColor
+        problemLabel.layer.position = CGPoint(x: self.view!.bounds.width/2.0, y: 250)
+        self.view?.addSubview(problemLabel)
         
         choicesATextField.frame = CGRectMake(0, 0, 300, 60)
         choicesATextField.placeholder = "外に食べに行く"
@@ -75,9 +70,15 @@ class TitleScene: SKScene, UITextFieldDelegate {
         choicesATextField.borderStyle = UITextBorderStyle.RoundedRect
         choicesATextField.layer.borderColor = AppColors.mainColor.CGColor
         choicesATextField.layer.borderWidth = 1.0
-        choicesATextField.layer.position = CGPoint(x:self.view!.bounds.width/2.0,y:360)
+        choicesATextField.layer.position = CGPoint(x:self.view!.bounds.width/2.0,y:330)
         choicesATextField.tag = Tag.ChoicesA.rawValue
         self.view?.addSubview(choicesATextField)
+        
+        choicesLabel.frame = CGRectMake(0, 0, 300, 40)
+        choicesLabel.text = "または"
+        choicesLabel.layer.position = CGPoint(x: self.view!.bounds.width/2.0, y: 380)
+        choicesLabel.textColor = AppColors.textColor
+        self.view?.addSubview(choicesLabel)
         
         choicesBTextField.frame = CGRectMake(0, 0, 300, 60)
         choicesBTextField.placeholder = "自炊して節約する"
@@ -91,6 +92,12 @@ class TitleScene: SKScene, UITextFieldDelegate {
         choicesBTextField.tag = Tag.ChoicesB.rawValue
         self.view?.addSubview(choicesBTextField)
         
+        solutionLabel.frame = CGRectMake(0, 0, 300, 40)
+        solutionLabel.text = "で解決します"
+        solutionLabel.layer.position = CGPoint(x: self.view!.bounds.width/2.0 + 200, y: 480)
+        solutionLabel.textColor = AppColors.textColor
+        self.view?.addSubview(solutionLabel)
+        
         myButton.frame = CGRectMake(0,0,300,40)
         myButton.backgroundColor = AppColors.mainColor
         myButton.layer.masksToBounds = true
@@ -99,31 +106,31 @@ class TitleScene: SKScene, UITextFieldDelegate {
         myButton.setTitle("決定", forState: UIControlState.Highlighted)
         myButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Highlighted)
         myButton.layer.cornerRadius = 4.0
-        myButton.layer.position = CGPoint(x: self.view!.bounds.width/2.0, y: 540)
+        myButton.layer.position = CGPoint(x: self.view!.bounds.width/2.0, y: 560)
         myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
         self.view?.addSubview(myButton)
         
-        uiSubViews = [titleLabel, problemLabel, problemTextField, choicesLabel, choicesATextField, choicesBTextField, myButton]
+        uiSubViews = [titleLabel, problemLabel, problemTextField, choicesLabel, choicesATextField, choicesBTextField, myButton, solutionLabel]
     }
     
     func onClickMyButton(sender : UIButton){
-//        if(problem.hasEmpty()){
-//            let myAlert = UIAlertController(title: "空欄の場所があります", message: "全ての空欄を埋めてください", preferredStyle: .Alert)
-//            let myOkAction = UIAlertAction(title: "OK", style: .Default) { action in
-//                println("Action OK!!")
-//            }
-//            myAlert.addAction(myOkAction)
-//            self.view?.window?.rootViewController?.presentViewController(myAlert, animated: true, completion: nil)
-//            return
-//        }
+        if(problem.hasEmpty()){
+            let myAlert = UIAlertController(title: "空欄の場所があります", message: "全ての空欄を埋めてください", preferredStyle: .Alert)
+            let myOkAction = UIAlertAction(title: "OK", style: .Default) { action in
+                println("Action OK!!")
+            }
+            myAlert.addAction(myOkAction)
+            self.view?.window?.rootViewController?.presentViewController(myAlert, animated: true, completion: nil)
+            return
+        }
         
         for i in uiSubViews{
             i.hidden = true
         }
         
-        problem.problem = "Sample Problem"
-        problem.choicesA = "Sample Choices A"
-        problem.choicesB = "Sample Choices B"
+//        problem.problem = "Sample Problem"
+//        problem.choicesA = "Sample Choices A"
+//        problem.choicesB = "Sample Choices B"
         
         let judgeScene = JudgeScene(size: self.scene!.size)
         
@@ -173,7 +180,6 @@ class TitleScene: SKScene, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
         return true
     }
 }
