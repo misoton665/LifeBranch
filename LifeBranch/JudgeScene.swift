@@ -78,16 +78,16 @@ class JudgeScene: SKScene{
     private var throwableArea: SKShapeNode!
     private var choicesArea: SKShapeNode!
     
-    private var circleBumperA: SKShapeNode!
-    private var circleBumperB: SKShapeNode!
-    private var circleBumperC: SKShapeNode!
-    private var circleBumperD: SKShapeNode!
+    private var circleBumperA: Bumper!
+    private var circleBumperB: Bumper!
+    private var circleBumperC: Bumper!
+    private var circleBumperD: Bumper!
     
     private var triangleBumperA : SKShapeNode!
     private var triangleBumperB : SKShapeNode!
     private var triangleBumperC : SKShapeNode!
     private var triangleBumperD : SKShapeNode!
-    private var wallBumperA: SKShapeNode!
+    private var wallBumperA: Bumper!
     private var wallBumperB: SKShapeNode!
     private var wallBumperC: SKShapeNode!
     private var wallBumperD: SKShapeNode!
@@ -140,37 +140,21 @@ class JudgeScene: SKScene{
         choicesArea.position = CGPointMake(self.frame.midX, self.frame.minY + 50.0)
         self.addChild(choicesArea)
         
-        circleBumperA = SKShapeNode(circleOfRadius: 24.0)
-        circleBumperA.fillColor = AppColors.bumperColor
-        circleBumperA.position = CGPointMake(self.frame.midX - 120, self.frame.midY + 200)
-        circleBumperA.physicsBody = SKPhysicsBody(circleOfRadius: 24.0)
-        circleBumperA.physicsBody?.dynamic = false
-        circleBumperA.physicsBody?.restitution = -0.2
-        self.addChild(circleBumperA)
+        circleBumperA = Bumper(parentScene: self, circlePos: (self.frame.midX - 120, self.frame.midY + 200), circleRadius: 24.0)
+        circleBumperA.restitution = -0.2
+        circleBumperA.addToScene()
         
-        circleBumperB = SKShapeNode(circleOfRadius: 24.0)
-        circleBumperB.fillColor = AppColors.bumperColor
-        circleBumperB.position = CGPointMake(self.frame.midX + 120, self.frame.midY + 200)
-        circleBumperB.physicsBody = SKPhysicsBody(circleOfRadius: 24.0)
-        circleBumperB.physicsBody?.dynamic = false
-        circleBumperB.physicsBody?.restitution = -0.2
-        self.addChild(circleBumperB)
+        circleBumperB = Bumper(parentScene: self, circlePos: (self.frame.midX + 120, self.frame.midY + 200), circleRadius: 24.0)
+        circleBumperB.restitution = -0.2
+        circleBumperB.addToScene()
         
-        circleBumperC = SKShapeNode(circleOfRadius: 20.0)
-        circleBumperC.fillColor = AppColors.bumperColor
-        circleBumperC.position = CGPointMake(self.frame.midX - 60, self.frame.midY + 100)
-        circleBumperC.physicsBody = SKPhysicsBody(circleOfRadius: 20.0)
-        circleBumperC.physicsBody?.dynamic = false
-        circleBumperC.physicsBody?.restitution = -0.2
-        self.addChild(circleBumperC)
+        circleBumperC = Bumper(parentScene: self, circlePos: (self.frame.midX - 60, self.frame.midY + 100), circleRadius: 20.0)
+        circleBumperC.restitution = -0.2
+        circleBumperC.addToScene()
         
-        circleBumperD = SKShapeNode(circleOfRadius: 20.0)
-        circleBumperD.fillColor = AppColors.bumperColor
-        circleBumperD.position = CGPointMake(self.frame.midX + 60, self.frame.midY + 100)
-        circleBumperD.physicsBody = SKPhysicsBody(circleOfRadius: 20.0)
-        circleBumperD.physicsBody?.dynamic = false
-        circleBumperD.physicsBody?.restitution = -0.2
-        self.addChild(circleBumperD)
+        circleBumperD = Bumper(parentScene: self, circlePos: (self.frame.midX + 60, self.frame.midY + 100), circleRadius: 20.0)
+        circleBumperD.restitution = -0.2
+        circleBumperD.addToScene()
         
         var halfLength: CGFloat = 30.0
         
@@ -243,14 +227,9 @@ class JudgeScene: SKScene{
         triangleBumperD.physicsBody?.dynamic = false
         self.addChild(triangleBumperD)
         
-        wallBumperA = SKShapeNode(rectOfSize: CGSizeMake(100.0, wallThickness))
-        wallBumperA.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(100.0, wallThickness))
-        wallBumperA.fillColor = AppColors.bumperColor
-        wallBumperA.position = CGPointMake(self.frame.midX - 100, self.frame.midY - 100)
-        wallBumperA.zRotation = DegreeToRadian(-30)
-        wallBumperA.physicsBody?.dynamic = false
-        wallBumperA.physicsBody?.restitution = 1.0
-        self.addChild(wallBumperA)
+        wallBumperA = Bumper(parentScene: self, rectPos: (self.frame.midX, self.frame.midY), rectSize: (100.0, wallThickness))
+        wallBumperA.degree = -30
+        wallBumperA.addToScene()
         
         wallBumperB = SKShapeNode(rectOfSize: CGSizeMake(100.0, wallThickness))
         wallBumperB.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(100.0, wallThickness))
@@ -302,10 +281,19 @@ class JudgeScene: SKScene{
         rightBorderLine.physicsBody = SKPhysicsBody(edgeFromPoint: rlinePoints[0], toPoint: rlinePoints[1])
         self.addChild(rightBorderLine)
         
-        let ChoicesBorderLine = SKShapeNode(points: &choicesLinePoints, count: UInt(choicesLinePoints.count))
-        ChoicesBorderLine.strokeColor = AppColors.mainColor
-        ChoicesBorderLine.physicsBody = SKPhysicsBody(edgeFromPoint: choicesLinePoints[0], toPoint: choicesLinePoints[1])
-        self.addChild(ChoicesBorderLine)
+        let choicesBorderLine = SKShapeNode(points: &choicesLinePoints, count: UInt(choicesLinePoints.count))
+        choicesBorderLine.strokeColor = AppColors.mainColor
+        choicesBorderLine.physicsBody = SKPhysicsBody(edgeFromPoint: choicesLinePoints[0], toPoint: choicesLinePoints[1])
+        self.addChild(choicesBorderLine)
+        
+        var centerLinePoints = [
+            CGPointMake(self.frame.minX, self.frame.midY),
+            CGPointMake(self.frame.maxX, self.frame.midY)
+        ]
+        
+        let centerLine = SKShapeNode(points: &centerLinePoints, count: UInt(centerLinePoints.count))
+        centerLine.strokeColor = AppColors.mainColor
+        self.addChild(centerLine)
         
         leftLabel = SKLabelNode(text: "\(leftCnt)")
         leftLabel.fontSize = 50
