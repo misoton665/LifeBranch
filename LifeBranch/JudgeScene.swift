@@ -18,7 +18,6 @@ extension SKScene{
     func DegreeToRadian(Degree : Double!)-> CGFloat{
         return CGFloat(Degree) / CGFloat(180.0 * M_1_PI)
     }
-    
 }
 
 class JudgeCircleNode: SKShapeNode{
@@ -197,7 +196,7 @@ class JudgeScene: SKScene{
         triangleBumperA = SKShapeNode(points: &points, count: UInt(points.count))
         triangleBumperA.physicsBody = SKPhysicsBody(polygonFromPath: path)
         triangleBumperA.fillColor = AppColors.bumperColor
-        triangleBumperA.position = CGPointMake(self.frame.midX + halfLength * 1.73205080757 / 3.0 * 2.0,self.frame.midY)
+        triangleBumperA.position = CGPointMake(self.frame.midX - halfLength * 1.73205080757 / 3.0 * 2.0,self.frame.midY)
         triangleBumperA.physicsBody?.dynamic = false
         triangleBumperA.physicsBody?.restitution = 1.2
         self.addChild(triangleBumperA)
@@ -205,7 +204,7 @@ class JudgeScene: SKScene{
         triangleBumperB = SKShapeNode(points: &points, count: UInt(points.count))
         triangleBumperB.physicsBody = SKPhysicsBody(polygonFromPath: path)
         triangleBumperB.fillColor = AppColors.bumperColor
-        triangleBumperB.position = CGPointMake(self.frame.midX - halfLength * 1.73205080757 / 3.0 * 2.0,self.frame.midY)
+        triangleBumperB.position = CGPointMake(self.frame.midX + halfLength * 1.73205080757 / 3.0 * 2.0,self.frame.midY)
         triangleBumperB.physicsBody?.dynamic = false
         triangleBumperA.physicsBody?.restitution = 1.2
         self.addChild(triangleBumperB)
@@ -216,6 +215,19 @@ class JudgeScene: SKScene{
             CGPoint(x:-halfLength, y: -halfLength * 1.73205080757 / 3.0),
             CGPoint(x: 0.0, y: halfLength * 1.73205080757 / 3.0 * 2.0),
             CGPoint(x:halfLength, y: -halfLength * 1.73205080757 / 3.0)]
+        
+        path = CGPathCreateMutable()
+        oneflag = true
+        for point in points {
+            if oneflag == true {
+                CGPathMoveToPoint(path,nil,point.x,point.y)
+                oneflag = false
+            }
+            else{
+                CGPathAddLineToPoint(path,nil,point.x,point.y)
+            }
+        }
+        CGPathCloseSubpath(path)
         
         triangleBumperC = SKShapeNode(points: &points, count: UInt(points.count))
         triangleBumperC.physicsBody = SKPhysicsBody(polygonFromPath: path)
