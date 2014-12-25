@@ -17,6 +17,7 @@
 		2C09051A1A378E49007E8DBF /* LifeBranchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0905191A378E49007E8DBF /* LifeBranchTests.swift */; };
 		2C1325281A48553700A75D86 /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1325271A48553700A75D86 /* Problem.swift */; };
 		2C13252A1A49404F00A75D86 /* Bumper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1325291A49404F00A75D86 /* Bumper.swift */; };
+		2C243E5D1A4C028200531F4C /* JudgeCircleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C243E5C1A4C028200531F4C /* JudgeCircleNode.swift */; };
 		2C408EF51A43E704000CB014 /* JudgeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C408EF41A43E704000CB014 /* JudgeScene.swift */; };
 		2C9D4C091A4AF412009FDFF3 /* SimpleSKLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D4C081A4AF412009FDFF3 /* SimpleSKLabel.swift */; };
 		2CC3C5721A46C590002730B6 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC3C5711A46C590002730B6 /* AppColors.swift */; };
@@ -47,6 +48,7 @@
 		2C0905191A378E49007E8DBF /* LifeBranchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeBranchTests.swift; sourceTree = "<group>"; };
 		2C1325271A48553700A75D86 /* Problem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Problem.swift; sourceTree = "<group>"; };
 		2C1325291A49404F00A75D86 /* Bumper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bumper.swift; sourceTree = "<group>"; };
+		2C243E5C1A4C028200531F4C /* JudgeCircleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JudgeCircleNode.swift; sourceTree = "<group>"; };
 		2C408EF41A43E704000CB014 /* JudgeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JudgeScene.swift; sourceTree = "<group>"; };
 		2C9D4C081A4AF412009FDFF3 /* SimpleSKLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSKLabel.swift; sourceTree = "<group>"; };
 		2CC3C5711A46C590002730B6 /* AppColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				2C0905031A378E49007E8DBF /* TitleScene.swift */,
 				2C0905051A378E49007E8DBF /* GameViewController.swift */,
 				2C408EF41A43E704000CB014 /* JudgeScene.swift */,
+				2C243E5C1A4C028200531F4C /* JudgeCircleNode.swift */,
 				2C1325291A49404F00A75D86 /* Bumper.swift */,
 				2C9D4C081A4AF412009FDFF3 /* SimpleSKLabel.swift */,
 				2C0905071A378E49007E8DBF /* Main.storyboard */,
@@ -235,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C1325281A48553700A75D86 /* Problem.swift in Sources */,
+				2C243E5D1A4C028200531F4C /* JudgeCircleNode.swift in Sources */,
 				2C0905041A378E49007E8DBF /* TitleScene.swift in Sources */,
 				2C408EF51A43E704000CB014 /* JudgeScene.swift in Sources */,
 				2CC3C5721A46C590002730B6 /* AppColors.swift in Sources */,

@@ -10,7 +10,16 @@ import Foundation
 import SpriteKit
 
 class SimpleSKLabel: SKLabelNode{
-    private var parentScene: SKScene!
+    private var _parentScene: SKScene!
+    
+    var parentScene: SKScene?{
+        get{
+            return _parentScene
+        }
+        set(s){
+            _parentScene = s!
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -26,6 +35,6 @@ class SimpleSKLabel: SKLabelNode{
     }
     
     func addToScene(){
-        parentScene.addChild(self)
+        parentScene?.addChild(self)
     }
 }

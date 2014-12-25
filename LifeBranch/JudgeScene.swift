@@ -1,5 +1,5 @@
 //
-//  JadgeScene.swift
+//  JudgeScene.swift
 //  LifeBranch
 //
 //  Created by misoton on 2014/12/19.
@@ -9,70 +9,10 @@
 import SpriteKit
 import Social
 
-extension SKScene{
-    
-    func GetMid()->CGPoint{
-        return CGPointMake(self.frame.midX, self.frame.midY)
-    }
-    
-    func DegreeToRadian(Degree : Double!)-> CGFloat{
-        return CGFloat(Degree) / CGFloat(180.0 * M_1_PI)
-    }
-}
-
-class JudgeCircleNode: SKShapeNode{
-    let fallBorder: Int = 6
-    var fallCount: Int = 0
-    
-    func incFallCount(value: Int){
-        fallCount += value
-    }
-    
-    func resetFallCount(){
-        fallCount = 0
-    }
-    
-    func isFall()->Bool{
-        return fallCount > fallBorder
-    }
-}
-
-class RemovedBool{
-    var _boolValue: Int = 1
-    
-    var bool: Bool{
-        get{
-            if(_boolValue == 1){
-                return true
-            } else {
-                return false
-            }
-        }
-        set(bool){
-            if(bool){
-                _boolValue = 1
-            } else {
-                _boolValue = 0
-            }
-        }
-    }
-    
-    init(bool: Bool){
-        if(bool){
-            _boolValue = 1
-        } else {
-            _boolValue = 0
-        }
-    }
-}
-
-class JudgeScene: SKScene{
+class JudgeScene: SKScene, JudgeCircleFalledDelegate{
     var _problem: Problem = Problem()
     
     private let wallThickness: CGFloat = 10.0
-    
-    private var leftRotateAction :SKAction!
-    private var rightRotateAction :SKAction!
     
     private var circleLeftCntLabel: SKLabelNode!
     private var throwableArea: SKShapeNode!
@@ -83,14 +23,14 @@ class JudgeScene: SKScene{
     private var circleBumperC: Bumper!
     private var circleBumperD: Bumper!
     
-    private var triangleBumperA : SKShapeNode!
-    private var triangleBumperB : SKShapeNode!
-    private var triangleBumperC : SKShapeNode!
-    private var triangleBumperD : SKShapeNode!
+    private var triangleBumperA : Bumper!
+    private var triangleBumperB : Bumper!
+    private var triangleBumperC : Bumper!
+    private var triangleBumperD : Bumper!
     private var wallBumperA: Bumper!
-    private var wallBumperB: SKShapeNode!
-    private var wallBumperC: SKShapeNode!
-    private var wallBumperD: SKShapeNode!
+    private var wallBumperB: Bumper!
+    private var wallBumperC: Bumper!
+    private var wallBumperD: Bumper!
     private var leftLabel: SKLabelNode!
     private var rightLabel: SKLabelNode!
     
@@ -103,10 +43,6 @@ class JudgeScene: SKScene{
     private var circleFalledCnt: Int = 0
     private let circleMax: Int = 11
     
-    private var rotatefl: Bool = true
-    
-    private var circles: [(JudgeCircleNode, RemovedBool)] = []
-    
     var problem: Problem{
         get{
             return _problem
@@ -118,11 +54,6 @@ class JudgeScene: SKScene{
     
     override func didMoveToView(view: SKView) {
         self.backgroundColor = AppColors.backgroundColor
-        
-        var timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "update", userInfo: nil, repeats: true)
-        
-        leftRotateAction = SKAction.rotateByAngle( DegreeToRadian(36.0) , duration: 0.1)
-        rightRotateAction = SKAction.rotateByAngle( DegreeToRadian(-36.0) , duration: 0.1)
         
         circleLeftCntLabel = SKLabelNode(text: "\(circleLeftCnt)")
         circleLeftCntLabel.fontSize = 50
@@ -158,103 +89,39 @@ class JudgeScene: SKScene{
         
         var halfLength: CGFloat = 30.0
         
-        var points = [CGPoint(x:halfLength, y: -halfLength * 1.73205080757 / 3.0),
-            CGPoint(x:-halfLength, y: -halfLength * 1.73205080757 / 3.0),
-            CGPoint(x: 0.0, y: halfLength * 1.73205080757 / 3.0 * 2.0),
-            CGPoint(x:halfLength, y: -halfLength * 1.73205080757 / 3.0)]
+        triangleBumperA = Bumper(parentScene: self, trianglePos: (self.frame.midX - 40.0,self.frame.midY), triangleLength: 60.0, rotatable: true, rotateDegree: 36.0)
+        triangleBumperA.restitution = 1.2
+        triangleBumperA.addToScene()
         
-        var path = CGPathCreateMutable()
-        
-        var oneflag : Bool = true
-        for point in points {
-            if oneflag == true {
-                CGPathMoveToPoint(path,nil,point.x,point.y)
-                oneflag = false
-            }
-            else{
-                CGPathAddLineToPoint(path,nil,point.x,point.y)
-            }
-        }
-        CGPathCloseSubpath(path)
-        
-        triangleBumperA = SKShapeNode(points: &points, count: UInt(points.count))
-        triangleBumperA.physicsBody = SKPhysicsBody(polygonFromPath: path)
-        triangleBumperA.fillColor = AppColors.bumperColor
-        triangleBumperA.position = CGPointMake(self.frame.midX - halfLength * 1.73205080757 / 3.0 * 2.0,self.frame.midY)
-        triangleBumperA.physicsBody?.dynamic = false
-        triangleBumperA.physicsBody?.restitution = 1.2
-        self.addChild(triangleBumperA)
-        
-        triangleBumperB = SKShapeNode(points: &points, count: UInt(points.count))
-        triangleBumperB.physicsBody = SKPhysicsBody(polygonFromPath: path)
-        triangleBumperB.fillColor = AppColors.bumperColor
-        triangleBumperB.position = CGPointMake(self.frame.midX + halfLength * 1.73205080757 / 3.0 * 2.0,self.frame.midY)
-        triangleBumperB.physicsBody?.dynamic = false
-        triangleBumperA.physicsBody?.restitution = 1.2
-        self.addChild(triangleBumperB)
+        triangleBumperB = Bumper(parentScene: self, trianglePos: (self.frame.midX + 40.0,self.frame.midY), triangleLength: 60.0, rotatable: true, rotateDegree: -36.0)
+        triangleBumperB.restitution = 1.2
+        triangleBumperB.addToScene()
         
         halfLength = 20.0
         
-        points = [CGPoint(x:halfLength, y: -halfLength * 1.73205080757 / 3.0),
-            CGPoint(x:-halfLength, y: -halfLength * 1.73205080757 / 3.0),
-            CGPoint(x: 0.0, y: halfLength * 1.73205080757 / 3.0 * 2.0),
-            CGPoint(x:halfLength, y: -halfLength * 1.73205080757 / 3.0)]
+        triangleBumperC = Bumper(parentScene: self, trianglePos: (self.frame.midX - 160, self.frame.midY - 160), triangleLength: 40.0, rotatable: true, rotateDegree: 36.0)
+        triangleBumperC.addToScene()
         
-        path = CGPathCreateMutable()
-        oneflag = true
-        for point in points {
-            if oneflag == true {
-                CGPathMoveToPoint(path,nil,point.x,point.y)
-                oneflag = false
-            }
-            else{
-                CGPathAddLineToPoint(path,nil,point.x,point.y)
-            }
-        }
-        CGPathCloseSubpath(path)
+        triangleBumperD = Bumper(parentScene: self, trianglePos: (self.frame.midX + 160, self.frame.midY - 160), triangleLength: 40.0, rotatable: true, rotateDegree: -36.0)
+        triangleBumperD.addToScene()
         
-        triangleBumperC = SKShapeNode(points: &points, count: UInt(points.count))
-        triangleBumperC.physicsBody = SKPhysicsBody(polygonFromPath: path)
-        triangleBumperC.fillColor = AppColors.bumperColor
-        triangleBumperC.position = CGPointMake(self.frame.midX - 160, self.frame.midY - 160)
-        triangleBumperC.physicsBody?.dynamic = false
-        self.addChild(triangleBumperC)
-        
-        triangleBumperD = SKShapeNode(points: &points, count: UInt(points.count))
-        triangleBumperD.physicsBody = SKPhysicsBody(polygonFromPath: path)
-        triangleBumperD.fillColor = AppColors.bumperColor
-        triangleBumperD.position = CGPointMake(self.frame.midX + 160, self.frame.midY - 160)
-        triangleBumperD.physicsBody?.dynamic = false
-        self.addChild(triangleBumperD)
-        
-        wallBumperA = Bumper(parentScene: self, rectPos: (self.frame.midX, self.frame.midY), rectSize: (100.0, wallThickness))
+        wallBumperA = Bumper(parentScene: self, rectPos: (self.frame.midX - 100, self.frame.midY - 100), rectSize: (100.0, wallThickness))
         wallBumperA.degree = -30
+        wallBumperA.restitution = 1.0
         wallBumperA.addToScene()
         
-        wallBumperB = SKShapeNode(rectOfSize: CGSizeMake(100.0, wallThickness))
-        wallBumperB.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(100.0, wallThickness))
-        wallBumperB.fillColor = AppColors.bumperColor
-        wallBumperB.position = CGPointMake(self.frame.midX + 100, self.frame.midY - 100)
-        wallBumperB.zRotation = DegreeToRadian(30)
-        wallBumperB.physicsBody?.dynamic = false
-        wallBumperB.physicsBody?.restitution = 1.0
-        self.addChild(wallBumperB)
+        wallBumperB = Bumper(parentScene: self, rectPos: (self.frame.midX + 100, self.frame.midY - 100), rectSize: (100.0, wallThickness))
+        wallBumperB.degree = 30
+        wallBumperB.restitution = 1.0
+        wallBumperB.addToScene()
         
-        wallBumperC = SKShapeNode(rectOfSize: CGSizeMake(80.0, wallThickness))
-        wallBumperC.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(80.0, wallThickness))
-        wallBumperC.fillColor = AppColors.bumperColor
-        wallBumperC.position = CGPointMake(self.frame.midX - 173, self.frame.midY + 20)
-        wallBumperC.zRotation = DegreeToRadian(-10)
-        wallBumperC.physicsBody?.dynamic = false
-        self.addChild(wallBumperC)
+        wallBumperC = Bumper(parentScene: self, rectPos: (self.frame.midX - 173, self.frame.midY + 20), rectSize: (80.0, wallThickness))
+        wallBumperC.degree = -10
+        wallBumperC.addToScene()
         
-        wallBumperD = SKShapeNode(rectOfSize: CGSizeMake(80.0, wallThickness))
-        wallBumperD.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(80.0, wallThickness))
-        wallBumperD.fillColor = AppColors.bumperColor
-        wallBumperD.position = CGPointMake(self.frame.midX + 173, self.frame.midY + 20)
-        wallBumperD.zRotation = DegreeToRadian(10)
-        wallBumperD.physicsBody?.dynamic = false
-        self.addChild(wallBumperD)
+        wallBumperD = Bumper(parentScene: self, rectPos: (self.frame.midX + 173, self.frame.midY + 20), rectSize: (80.0, wallThickness))
+        wallBumperD.degree = 10
+        wallBumperD.addToScene()
         
         var llinePoints = [
             CGPointMake(self.frame.midX - 217, self.frame.maxY),
@@ -285,15 +152,6 @@ class JudgeScene: SKScene{
         choicesBorderLine.strokeColor = AppColors.mainColor
         choicesBorderLine.physicsBody = SKPhysicsBody(edgeFromPoint: choicesLinePoints[0], toPoint: choicesLinePoints[1])
         self.addChild(choicesBorderLine)
-        
-        var centerLinePoints = [
-            CGPointMake(self.frame.minX, self.frame.midY),
-            CGPointMake(self.frame.maxX, self.frame.midY)
-        ]
-        
-        let centerLine = SKShapeNode(points: &centerLinePoints, count: UInt(centerLinePoints.count))
-        centerLine.strokeColor = AppColors.mainColor
-        self.addChild(centerLine)
         
         leftLabel = SKLabelNode(text: "\(leftCnt)")
         leftLabel.fontSize = 50
@@ -332,13 +190,9 @@ class JudgeScene: SKScene{
                 continue
             }
             
-            let circle = JudgeCircleNode(circleOfRadius: 10.0)
-            circle.fillColor = AppColors.ballColor
-            circle.position = location
-            circle.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
-            circle.physicsBody?.restitution = 0.6
-            self.addChild(circle as SKShapeNode)
-            circles.append(circle, RemovedBool(bool: true))
+            let circle = JudgeCircleNode(parentScene: self, position: (location.x, location.y), fallBorder: 6)
+            circle.delegate = self
+            circle.addToScene()
             
             circleLeftCnt--
             circleLeftCntLabel.text = "\(circleLeftCnt)"
@@ -359,56 +213,6 @@ class JudgeScene: SKScene{
         choicesBLabel.hidden = true
     }
     
-    func update(){
-        triangleBumperA.runAction(leftRotateAction)
-        triangleBumperB.runAction(rightRotateAction)
-        triangleBumperC.runAction(leftRotateAction)
-        triangleBumperD.runAction(rightRotateAction)
-        
-        var cnt = 0
-        
-        for circle: (JudgeCircleNode, RemovedBool) in circles{
-            if(!circle.1.bool){
-                continue
-            }
-            
-            if(circle.0.position.y < 20){
-                circle.0.incFallCount(1)
-            } else {
-                circle.0.resetFallCount()
-            }
-            if(circle.0.isFall()){
-                if(circle.0.frame.midX < self.frame.midX){
-                    leftCnt++
-                    leftLabel.text = "\(leftCnt)"
-                    if(leftCnt >= (circleMax - 1) / 2 + 1){
-                        leftLabel.fontColor = AppColors.emphasisColor
-                    }
-                } else {
-                    rightCnt++
-                    rightLabel.text = "\(rightCnt)"
-                    if(rightCnt >= (circleMax - 1) / 2 + 1){
-                        rightLabel.fontColor = AppColors.emphasisColor
-                    }
-                }
-                self.removeChildrenInArray([circle.0])
-                circle.1.bool = false
-                circleFalledCnt++
-                
-                if circleFalledCnt >= circleMax {
-                    var choicesText: NSString = ""
-                    if leftCnt > rightCnt {
-                        choicesText = problem.choicesA
-                    } else {
-                        choicesText = problem.choicesB
-                    }
-                    launchFinishAlert(choicesText)
-                }
-            }
-            cnt++
-        }
-    }
-    
     func launchFinishAlert(choicesText: NSString){
         let myAlert = UIAlertController(title: "決定しました！", message: "\(choicesText)", preferredStyle: .Alert)
         let myOkAction = UIAlertAction(title: "OK", style: .Default) { action in
@@ -422,16 +226,45 @@ class JudgeScene: SKScene{
         let myComposeView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
         myComposeView.setInitialText(tweetText)
         myComposeView.completionHandler = { hanlder in
-            let titleScene = TitleScene(size: self.scene!.size)
-            
-            let transitionEffect = SKTransition.fadeWithDuration(0.5)
-            
-            titleScene.size = self.frame.size
-            
-            titleScene.scaleMode = .AspectFill
-            
-            self.view?.presentScene(titleScene)
+            self.transitionTitleScene()
         }
         self.view?.window?.rootViewController?.presentViewController(myComposeView, animated: true, completion: nil)
+    }
+    
+    func transitionTitleScene(){
+        let titleScene = TitleScene(size: self.scene!.size)
+        let transitionEffect = SKTransition.fadeWithDuration(0.5)
+        titleScene.size = self.frame.size
+        titleScene.scaleMode = .AspectFill
+        self.view?.presentScene(titleScene)
+    }
+    
+    func judgeCircleFalled(falledNode: JudgeCircleNode){
+        if(falledNode.frame.midX < self.frame.midX){
+            leftCnt++
+            leftLabel.text = "\(leftCnt)"
+            if(leftCnt >= (circleMax - 1) / 2 + 1){
+                leftLabel.fontColor = AppColors.emphasisColor
+            }
+        } else {
+            rightCnt++
+            rightLabel.text = "\(rightCnt)"
+            if(rightCnt >= (circleMax - 1) / 2 + 1){
+                rightLabel.fontColor = AppColors.emphasisColor
+            }
+        }
+        self.removeChildrenInArray([falledNode])
+        circleFalledCnt++
+        
+        if circleFalledCnt >= circleMax {
+            var choicesText: NSString = ""
+            if leftCnt > rightCnt {
+                choicesText = problem.choicesA
+            } else {
+                choicesText = problem.choicesB
+            }
+            launchFinishAlert(choicesText)
+        }
+
     }
 }

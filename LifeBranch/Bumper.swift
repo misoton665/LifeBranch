@@ -16,11 +16,16 @@ class Bumper: SKShapeNode{
         Triangle
     }
     
+    private let rotateTime: Double = 0.1
+    
     private var rotatable: Bool = false
     private var parentScene: SKScene!
     private var action: SKAction!
     private var nodeType: NodeType!
     private var purePosition: CGPoint!
+    private var timer: NSTimer!
+    
+    private var rotateAction: SKAction!
     
     var restitution: CGFloat?{
         get{
@@ -53,45 +58,48 @@ class Bumper: SKShapeNode{
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(parentScene scene: SKScene, nodeType t: NodeType, position p: (CGFloat, CGFloat), nodeSize s: (CGFloat, CGFloat), nodeColor c: UIColor = AppColors.mainColor, rotatable r: Bool = false){
+    init(parentScene scene: SKScene, nodeType t: NodeType, position p: (CGFloat, CGFloat), nodeSize s: (CGFloat, CGFloat), nodeColor c: UIColor = AppColors.mainColor, rotatable r: Bool = false, rotateDegree d: CGFloat = 0.0){
         super.init()
         self.parentScene = scene
         self.nodeType = t
         self.rotatable = r
         self.purePosition = CGPointMake(p.0, p.1)
-        self.createNode(nodeFrame: CGRectMake(0, 0, s.0, s.1))
+        self.createNode(nodeSize: CGRectMake(0, 0, s.0, s.1))
         self.fillColor = AppColors.bumperColor
+        if self.rotatable {
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target:self, selector: "update", userInfo: nil, repeats: true)
+            rotateAction = SKAction.rotateByAngle( CGFloat(d) / CGFloat(180.0 * M_1_PI) , duration: rotateTime)
+        }
     }
     
-    convenience init(parentScene scene: SKScene, circlePos p: (CGFloat, CGFloat), circleRadius s: CGFloat, circleColor c: UIColor = AppColors.mainColor, rotatable r: Bool = false){
-        self.init(parentScene: scene, nodeType: .Circle, position: p, nodeSize: (s, s), nodeColor: c, rotatable: r)
+    // 円形バンパーの時のイニシャライザ
+    convenience init(parentScene scene: SKScene, circlePos p: (CGFloat, CGFloat), circleRadius s: CGFloat, rotatable r: Bool = false, rotateDegree d: CGFloat = 0.0, circleColor c: UIColor = AppColors.mainColor){
+        self.init(parentScene: scene, nodeType: .Circle, position: p, nodeSize: (s, s), nodeColor: c, rotatable: r, rotateDegree: d)
     }
     
-    convenience init(parentScene scene: SKScene, rectPos p: (CGFloat, CGFloat), rectSize s: (CGFloat, CGFloat), rectColor c: UIColor = AppColors.mainColor, rotatable r: Bool = false){
-        self.init(parentScene: scene, nodeType: .Rect, position: p, nodeSize: s, nodeColor: c, rotatable: r)
+    // 四角形バンパーの時のイニシャライザ
+    convenience init(parentScene scene: SKScene, rectPos p: (CGFloat, CGFloat), rectSize s: (CGFloat, CGFloat), rotatable r: Bool = false, rotateDegree d: CGFloat = 0.0, rectColor c: UIColor = AppColors.mainColor){
+        self.init(parentScene: scene, nodeType: .Rect, position: p, nodeSize: s, nodeColor: c, rotatable: r, rotateDegree: d)
     }
     
-    convenience init(parentScene scene: SKScene, trianglePos p: (CGFloat, CGFloat), triangleLength s: CGFloat, triangleColor c: UIColor = AppColors.mainColor, rotatable r: Bool = false){
-        self.init(parentScene: scene, nodeType: .Triangle, position: p, nodeSize: (s, s), nodeColor: c, rotatable: r)
+    // 三角形バンパーの時のイニシャライザ
+    convenience init(parentScene scene: SKScene, trianglePos p: (CGFloat, CGFloat), triangleLength s: CGFloat, rotatable r: Bool = false, rotateDegree d: CGFloat = 0.0, triangleColor c: UIColor = AppColors.mainColor){
+        self.init(parentScene: scene, nodeType: .Triangle, position: p, nodeSize: (s, s), nodeColor: c, rotatable: r, rotateDegree: d)
     }
     
-    private func createNode(nodeFrame f: CGRect){
+    private func createNode(nodeSize s: CGRect){
         switch(self.nodeType!){
         case .Circle:
-            self.path = CGPathCreateWithEllipseInRect(CGRectMake(0, 0, f.width * 2.0, f.height * 2.0), nil)
-            self.position = CGPointMake(purePosition.x - f.width, purePosition.y - f.height)
+            self.path = CGPathCreateWithEllipseInRect(CGRectMake(0, 0, s.width * 2.0, s.height * 2.0), nil)
+            self.convertedPosition = CGPointMake(purePosition.x - s.width, purePosition.y - s.height)
             self.physicsBody = SKPhysicsBody(polygonFromPath: self.path)
             
         case .Rect:
-            self.path = CGPathCreateWithRect(CGRectMake(0, 0, f.width, f.height), nil)
-            self.position = CGPointMake(purePosition.x - f.width / 2.0, purePosition.y - f.height / 2.0)
-            self.physicsBody = SKPhysicsBody(edgeLoopFromRect: f)
-            
-        case .Triangle:
-            var points = [CGPoint(x:f.width / 2.0, y: -f.height / 2.0 * 1.73205080757 / 3.0),
-                CGPoint(x:-f.width / 2.0, y: -f.height / 2.0 * 1.73205080757 / 3.0),
-                CGPoint(x: 0.0, y: f.height / 2.0 * 1.73205080757 / 3.0 * 2.0),
-                CGPoint(x:f.width / 2.0, y: -f.height / 2.0 * 1.73205080757 / 3.0)]
+            var points = [CGPoint(x:s.width / 2.0, y: s.height / 2.0),
+                CGPoint(x:-s.width / 2.0, y: s.height / 2.0),
+                CGPoint(x:-s.width / 2.0, y:-s.height / 2.0),
+                CGPoint(x:s.width / 2.0, y: -s.height / 2.0),
+                CGPoint(x:s.width / 2.0, y: s.height / 2.0)]
             
             var path = CGPathCreateMutable()
             
@@ -108,13 +116,47 @@ class Bumper: SKShapeNode{
             CGPathCloseSubpath(path)
             
             self.path = path
-            self.position = CGPointMake(purePosition.x, purePosition.y)
+            self.convertedPosition = CGPointMake(purePosition.x, purePosition.y)
+            self.physicsBody = SKPhysicsBody(polygonFromPath: path)
+            
+        case .Triangle:
+            let rt3: CGFloat = 1.73205080757
+            
+            var points = [CGPoint(x:s.width / 2.0, y: -s.height / 2.0 * rt3 / 3.0),
+                CGPoint(x:-s.width / 2.0, y: -s.height / 2.0 * rt3 / 3.0),
+                CGPoint(x: 0.0, y: s.height / 2.0 * rt3 / 3.0 * 2.0),
+                CGPoint(x:s.width / 2.0, y: -s.height / 2.0 * rt3 / 3.0)]
+            
+            var path = CGPathCreateMutable()
+            
+            var oneflag : Bool = true
+            for point in points {
+                if oneflag == true {
+                    CGPathMoveToPoint(path,nil,point.x,point.y)
+                    oneflag = false
+                }
+                else{
+                    CGPathAddLineToPoint(path,nil,point.x,point.y)
+                }
+            }
+            CGPathCloseSubpath(path)
+            
+            self.path = path
+            self.convertedPosition = CGPointMake(purePosition.x, purePosition.y)
             self.physicsBody = SKPhysicsBody(polygonFromPath: path)
             
         default:
             println("catched default in Bumper.createNode.")
         }
         self.physicsBody?.dynamic = false
+    }
+    
+    func update(){
+        self.runRotation()
+    }
+    
+    func runRotation(){
+        self.runAction(rotateAction)
     }
     
     func addToScene(){

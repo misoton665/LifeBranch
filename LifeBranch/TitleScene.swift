@@ -1,5 +1,5 @@
 //
-//  GameScene.swift
+//  TitleScene.swift
 //  LifeBranch
 //
 //  Created by misoton on 2014/12/10.
