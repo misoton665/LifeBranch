@@ -10,37 +10,49 @@ import SpriteKit
 import Social
 
 class JudgeScene: SKScene, JudgeCircleFalledDelegate{
+    
     var _problem: Problem = Problem()
     
+    // 壁バンパーの厚み
     private let wallThickness: CGFloat = 10.0
+    private let throwableAreaLength: CGFloat = 100.0
     
     private var circleLeftCntLabel: SKLabelNode!
     private var throwableArea: SKShapeNode!
     private var choicesArea: SKShapeNode!
     
+    // バンパー
     private var circleBumperA: Bumper!
     private var circleBumperB: Bumper!
     private var circleBumperC: Bumper!
     private var circleBumperD: Bumper!
-    
-    private var triangleBumperA : Bumper!
-    private var triangleBumperB : Bumper!
-    private var triangleBumperC : Bumper!
-    private var triangleBumperD : Bumper!
+    private var triangleBumperA: Bumper!
+    private var triangleBumperB: Bumper!
+    private var triangleBumperC: Bumper!
+    private var triangleBumperD: Bumper!
     private var wallBumperA: Bumper!
     private var wallBumperB: Bumper!
     private var wallBumperC: Bumper!
     private var wallBumperD: Bumper!
+    
+    // それぞれの選択肢に落ちた球の数
     private var leftLabel: SKLabelNode!
     private var rightLabel: SKLabelNode!
     
+    // 選択肢の内容ラベル
     private var choicesALabel: SKLabelNode!
     private var choicesBLabel: SKLabelNode!
     
+    // 球のカウント
+    // 左側に落ちた球の数
     private var leftCnt: Int = 0
+    // 右側に落ちた球の数
     private var rightCnt: Int = 0
+    // まだ出していない球の数
     private var circleLeftCnt: Int = 11
+    // 落ちた球の数
     private var circleFalledCnt: Int = 0
+    // 球の最大数
     private let circleMax: Int = 11
     
     var problem: Problem{
@@ -61,9 +73,9 @@ class JudgeScene: SKScene, JudgeCircleFalledDelegate{
         circleLeftCntLabel.position = CGPointMake(self.frame.midX, self.frame.maxY - 70)
         self.addChild(circleLeftCntLabel)
         
-        throwableArea = SKShapeNode(rectOfSize: CGSizeMake(self.frame.maxX, 100))
+        throwableArea = SKShapeNode(rectOfSize: CGSizeMake(self.frame.maxX, throwableAreaLength))
         throwableArea.fillColor = AppColors.maskBlackColor
-        throwableArea.position = CGPointMake(self.frame.midX, self.frame.maxY - 48.0)
+        throwableArea.position = CGPointMake(self.frame.midX, self.frame.maxY - (throwableAreaLength / 2) + 2.0)
         self.addChild(throwableArea)
         
         choicesArea = SKShapeNode(rectOfSize: CGSizeMake(self.frame.maxX, 100))
@@ -185,7 +197,8 @@ class JudgeScene: SKScene, JudgeCircleFalledDelegate{
         for touch in touches{
             let location = touch.locationInNode(self)
             
-            if location.y < self.frame.maxY - 100 || circleLeftCnt <= 0 {
+            //
+            if location.y < self.frame.maxY - throwableAreaLength || circleLeftCnt <= 0 {
                 showChoicesLabels()
                 continue
             }
@@ -265,6 +278,5 @@ class JudgeScene: SKScene, JudgeCircleFalledDelegate{
             }
             launchFinishAlert(choicesText)
         }
-
     }
 }

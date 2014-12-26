@@ -19,7 +19,6 @@
 		2C13252A1A49404F00A75D86 /* Bumper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1325291A49404F00A75D86 /* Bumper.swift */; };
 		2C243E5D1A4C028200531F4C /* JudgeCircleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C243E5C1A4C028200531F4C /* JudgeCircleNode.swift */; };
 		2C408EF51A43E704000CB014 /* JudgeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C408EF41A43E704000CB014 /* JudgeScene.swift */; };
-		2C9D4C091A4AF412009FDFF3 /* SimpleSKLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D4C081A4AF412009FDFF3 /* SimpleSKLabel.swift */; };
 		2CC3C5721A46C590002730B6 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC3C5711A46C590002730B6 /* AppColors.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +49,6 @@
 		2C1325291A49404F00A75D86 /* Bumper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bumper.swift; sourceTree = "<group>"; };
 		2C243E5C1A4C028200531F4C /* JudgeCircleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JudgeCircleNode.swift; sourceTree = "<group>"; };
 		2C408EF41A43E704000CB014 /* JudgeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JudgeScene.swift; sourceTree = "<group>"; };
-		2C9D4C081A4AF412009FDFF3 /* SimpleSKLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSKLabel.swift; sourceTree = "<group>"; };
 		2CC3C5711A46C590002730B6 /* AppColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,7 +100,6 @@
 				2C408EF41A43E704000CB014 /* JudgeScene.swift */,
 				2C243E5C1A4C028200531F4C /* JudgeCircleNode.swift */,
 				2C1325291A49404F00A75D86 /* Bumper.swift */,
-				2C9D4C081A4AF412009FDFF3 /* SimpleSKLabel.swift */,
 				2C0905071A378E49007E8DBF /* Main.storyboard */,
 				2C09050A1A378E49007E8DBF /* Images.xcassets */,
 				2C09050C1A378E49007E8DBF /* LaunchScreen.xib */,
@@ -244,7 +241,6 @@
 				2CC3C5721A46C590002730B6 /* AppColors.swift in Sources */,
 				2C13252A1A49404F00A75D86 /* Bumper.swift in Sources */,
 				2C0905061A378E49007E8DBF /* GameViewController.swift in Sources */,
-				2C9D4C091A4AF412009FDFF3 /* SimpleSKLabel.swift in Sources */,
 				2C0905001A378E49007E8DBF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
