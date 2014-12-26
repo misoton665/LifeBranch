@@ -46,7 +46,7 @@ class JudgeCircleNode: SKShapeNode{
     }
     
     func stateUpdate(){
-        if(self.position.y < 20){
+        if(self.position.y < 30){
             self.incFallCount(1)
         } else {
             self.resetFallCount()

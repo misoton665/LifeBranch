@@ -55,6 +55,8 @@ class JudgeScene: SKScene, JudgeCircleFalledDelegate{
     // 球の最大数
     private let circleMax: Int = 11
     
+    private var circleBeRemovingFlag: Bool = false
+    
     var problem: Problem{
         get{
             return _problem
@@ -197,12 +199,12 @@ class JudgeScene: SKScene, JudgeCircleFalledDelegate{
         for touch in touches{
             let location = touch.locationInNode(self)
             
-            //
             if location.y < self.frame.maxY - throwableAreaLength || circleLeftCnt <= 0 {
                 showChoicesLabels()
                 continue
             }
             
+            // 球の投下
             let circle = JudgeCircleNode(parentScene: self, position: (location.x, location.y), fallBorder: 6)
             circle.delegate = self
             circle.addToScene()
@@ -253,6 +255,11 @@ class JudgeScene: SKScene, JudgeCircleFalledDelegate{
     }
     
     func judgeCircleFalled(falledNode: JudgeCircleNode){
+        
+        while circleBeRemovingFlag {}
+        
+        circleBeRemovingFlag = true
+        
         if(falledNode.frame.midX < self.frame.midX){
             leftCnt++
             leftLabel.text = "\(leftCnt)"
@@ -278,5 +285,7 @@ class JudgeScene: SKScene, JudgeCircleFalledDelegate{
             }
             launchFinishAlert(choicesText)
         }
+        
+        circleBeRemovingFlag = false
     }
 }
